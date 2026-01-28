@@ -1047,45 +1047,36 @@
         </div>
     </div>
 
-    <!-- Mobile Timeline Bottom Navigation with Wheel Rotators -->
-    <div class="mobile-timeline-nav">
-        <div class="mobile-nav-grid">
-            <!-- Section 1: Timeline Years Wheel -->
-            <div class="mobile-nav-section">
-                <div class="mobile-nav-label">Timeline (Years)</div>
-                <div class="wheel-rotator" id="years-wheel">
-                    <div class="wheel-indicator"></div>
-                    <div class="wheel-track" id="years-track">
-                        <!-- Years will be dynamically positioned -->
-                    </div>
-                </div>
+    <!-- TradingView-Style Mobile Navigation -->
+    <div class="mobile-tv-nav">
+        <div class="tv-nav-container">
+            <!-- Left: Timeline Trigger -->
+            <div class="tv-timeline-trigger" id="timelineTrigger">
+                <div class="tv-label-mini">Timeline (Years)</div>
+                <div class="tv-value-main" id="timelineValue">Year 7</div>
             </div>
 
-            <!-- Divider -->
-            <div class="mobile-nav-divider"></div>
+            <!-- Right: Actions -->
+            <div class="tv-actions">
+                <div class="tv-action-btn" id="btnAchievements">Achievements</div>
+                <div class="tv-separator"></div>
+                <div class="tv-action-btn" id="btnSkills">Skills</div>
+            </div>
+        </div>
+    </div>
 
-            <!-- Section 2: Skills Wheel -->
-            <div class="mobile-nav-section">
-                <div class="mobile-nav-label">Skills</div>
-                <div class="wheel-rotator" id="skills-wheel">
-                    <div class="wheel-indicator"></div>
-                    <div class="wheel-track" id="skills-track">
-                        <!-- Skills will be dynamically positioned -->
-                    </div>
-                </div>
+    <!-- Timeline Wheel Overlay -->
+    <div class="tv-wheel-overlay" id="timelineOverlay">
+        <div class="tv-wheel-content">
+            <div class="tv-overlay-header">
+                <div class="tv-overlay-title">Select Year</div>
+                <div class="tv-active-indicator" id="overlayActiveValue">Year 7</div>
             </div>
 
-            <!-- Divider -->
-            <div class="mobile-nav-divider"></div>
-
-            <!-- Section 3: Key Achievements Wheel -->
-            <div class="mobile-nav-section">
-                <div class="mobile-nav-label">Achievements</div>
-                <div class="wheel-rotator achievements-wheel" id="achievements-wheel">
-                    <div class="wheel-indicator"></div>
-                    <div class="wheel-track" id="achievements-track">
-                        <!-- Achievements will be dynamically positioned -->
-                    </div>
+            <div class="tv-wheel-container" id="wheelContainer">
+                <div class="tv-wheel-selection"></div>
+                <div class="tv-wheel-track" id="tvYearsTrack">
+                    <!-- Dynamic Items -->
                 </div>
             </div>
         </div>
@@ -1677,20 +1668,20 @@
         // Map domains to their preview images
         // We use keywords to match the hrefs
         const previewMap = {
-            'projects/tdbank': 'Preview images/tdbankcasestudy.png',
-            'turbo-scribe-studio.lovable.app': 'Preview images/turbocontent.png',
-            'goodgamercorp.com': 'Preview images/goodgamer.png',
-            'birdseyepost.com': 'Preview images/birdseyepost.png',
-            'pixelpilot.design': 'Preview images/pixelpilotportfolio.png',
+            'projects/tdbank': 'preview-images/tdbankcasestudy.png',
+            'turbo-scribe-studio.lovable.app': 'preview-images/turbocontent.png',
+            'goodgamercorp.com': 'preview-images/goodgamer.png',
+            'birdseyepost.com': 'preview-images/birdseyepost.png',
+            'pixelpilot.design': 'preview-images/pixelpilotportfolio.png',
             'leaptools.com': 'assets/leaptools-preview.png',
-            'linkedin.com': 'Preview images/jastejlinkedin.png',
+            'linkedin.com': 'preview-images/jastejlinkedin.png',
             'roomvo': 'assets/leaptools-preview.png',
-            'turbocontent.ai': 'Preview images/turbocontent.png',
-            'i2g.vercel.app': 'Preview images/i2gvercelapp.png',
-            'blackbird+interactive': 'Preview images/blackbird-interactive.png',
-            'nativeads.com': 'Preview images/nativeads.png',
-            'mobilum.com': 'Preview images/mobilum.png',
-            'sfu.ca/siat/programs/undergraduate': 'Preview images/siat-sfu.png',
+            'turbocontent.ai': 'preview-images/turbocontent.png',
+            'i2g.vercel.app': 'preview-images/i2gvercelapp.png',
+            'blackbird+interactive': 'preview-images/blackbird-interactive.png',
+            'nativeads.com': 'preview-images/nativeads.png',
+            'mobilum.com': 'preview-images/mobilum.png',
+            'sfu.ca/siat/programs/undergraduate': 'preview-images/siat-sfu.png',
         };
 
         const overlay = document.createElement('div');
