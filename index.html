@@ -558,6 +558,13 @@
             color: var(--secondary-color);
         }
 
+        .quick-scan-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 6px 8px;
+            opacity: 0.6;
+        }
+
         /* --- TradingView-Style Mobile Bottom Nav --- */
         .mobile-tv-nav {
             display: none;
@@ -673,7 +680,7 @@
             background: rgba(0, 0, 0, 0.1);
         }
 
-        /* --- TradingView-Style Wheel Overlay --- */
+        /* --- TradingView-Style Centered Pop-up Modal --- */
         .tv-wheel-overlay {
             position: fixed;
             top: 0;
@@ -681,6 +688,7 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.4);
+            /* Dimmed background */
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             z-index: 2000;
@@ -688,9 +696,10 @@
             pointer-events: none;
             transition: opacity 0.2s ease;
             display: flex;
-            align-items: flex-end;
-            /* Bottom sheet style */
+            align-items: center;
+            /* Center Vertically */
             justify-content: center;
+            /* Center Horizontally */
         }
 
         .tv-wheel-overlay.active {
@@ -699,19 +708,23 @@
         }
 
         .tv-wheel-content {
-            width: 100%;
-            max-width: 400px;
+            width: 320px;
+            /* Specific width for card look */
+            max-width: 90%;
             background: #ffffff;
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
-            padding: 24px 0 40px;
-            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
-            transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 24px;
+            /* Fully rounded corners */
+            padding: 20px 0 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            /* Pop-in scaling animation */
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
         }
 
         .tv-wheel-overlay.active .tv-wheel-content {
-            transform: translateY(0);
+            transform: scale(1);
+            opacity: 1;
         }
 
         .tv-overlay-header {
@@ -719,59 +732,74 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            margin-bottom: 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 0;
+            /* Remove margin to merge with wheel area */
         }
 
         .tv-overlay-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
-            color: var(--primary-color);
+            color: #000000;
         }
 
         .tv-active-indicator {
-            font-size: 13px;
+            font-size: 15px;
             color: var(--accent-color);
             font-weight: 600;
         }
 
-        /* 3D Wheel Styles (Neutral) */
+        /* 3D Wheel Styles - High contrast and Visibility Fixes */
         .tv-wheel-container {
-            height: 200px;
+            height: 250px;
             overflow: hidden;
             position: relative;
-            perspective: 1000px;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+            background: #ffffff;
+            /* Minimal masking to ensure visibility */
+            -webkit-mask-image: linear-gradient(to bottom,
+                    transparent 0%,
+                    black 10%,
+                    black 90%,
+                    transparent 100%);
+            mask-image: linear-gradient(to bottom,
+                    transparent 0%,
+                    black 10%,
+                    black 90%,
+                    transparent 100%);
         }
 
         .tv-wheel-track {
             position: relative;
             height: 100%;
             transform-style: preserve-3d;
+            top: 50%;
+            margin-top: -25px;
+            /* Half of item height */
         }
 
         .tv-wheel-item {
             position: absolute;
             width: 100%;
             height: 50px;
-            /* Taller tap target */
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 18px;
             color: #9CA3AF;
-            /* Light gray neutral */
+            /* Default gray */
             cursor: pointer;
-            transition: all 0.2s;
             backface-visibility: hidden;
+            font-weight: 500;
+            user-select: none;
+            /* Ensure it renders on top */
+            z-index: 1;
         }
 
         .tv-wheel-item.active {
-            color: #111827;
-            /* Dark neutral */
-            font-size: 20px;
-            font-weight: 700;
+            color: #000000;
+            font-size: 22px;
+            font-weight: 800;
+            z-index: 10;
         }
 
         /* Selection Indicator Lines */
@@ -873,7 +901,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             z-index: 10000;
@@ -891,8 +919,32 @@
             pointer-events: all;
         }
 
+        .showreel-background-text {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13vw;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            z-index: 0;
+            pointer-events: none;
+            letter-spacing: -0.05em;
+            width: 100%;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+            user-select: none;
+        }
+
         .showreel-overlay-content {
             position: relative;
+            z-index: 10;
             width: 100%;
             max-width: 1200px;
             aspect-ratio: 16 / 9;
@@ -915,6 +967,8 @@
         }
 
         .showreel-close {
+            display: none;
+            /* Hiding the old close button in favor of the fixed one, or we can keep it. User said "add... also". Let's hide it to avoid clutter if the new one is global. */
             position: absolute;
             top: -50px;
             right: 0;
@@ -924,7 +978,6 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
@@ -944,6 +997,36 @@
             height: 20px;
         }
 
+        /* NEW Fixed Close Button */
+        .showreel-close-fixed {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 44px;
+            height: 44px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10002;
+            transition: transform 0.2s ease, background 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .showreel-close-fixed:hover {
+            background: black;
+            transform: scale(1.1);
+        }
+
+        .showreel-close-fixed svg {
+            width: 24px;
+            height: 24px;
+        }
+
         /* Mobile Responsive */
         @media screen and (max-width: 768px) {
             .showreel-widget {
@@ -955,6 +1038,10 @@
 
             .showreel-widget-tooltip {
                 display: none;
+            }
+
+            .showreel-background-text {
+                top: 25%;
             }
 
             .showreel-overlay {
@@ -1044,6 +1131,25 @@
                     <div class="quick-scan-companies">Alphagen Esports</div>
                 </div>
             </div>
+            <div class="quick-scan-divider"></div>
+            <div class="quick-scan-item special-item" data-target="achievements">
+                <div class="quick-scan-indicator"></div>
+                <div>
+                    <div class="quick-scan-label">Key Achievements</div>
+                </div>
+            </div>
+            <div class="quick-scan-item special-item" data-target="skills">
+                <div class="quick-scan-indicator"></div>
+                <div>
+                    <div class="quick-scan-label">Skills</div>
+                </div>
+            </div>
+            <div class="quick-scan-item special-item" data-target="education">
+                <div class="quick-scan-indicator"></div>
+                <div>
+                    <div class="quick-scan-label">Education</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1092,6 +1198,15 @@
 
     <!-- Showreel Overlay -->
     <div class="showreel-overlay no-print" id="showreelOverlay">
+        <div class="showreel-background-text">SHOWREEL</div>
+
+        <!-- New Fixed ID Button -->
+        <button class="showreel-close-fixed" id="closeShowreelFixed" aria-label="Close showreel">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
         <div class="showreel-overlay-content">
             <button class="showreel-close" id="closeShowreel" aria-label="Close showreel">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1470,7 +1585,7 @@
         <!-- SIDEBAR (RIGHT) -->
         <aside class="side-column">
 
-            <section>
+            <section data-job-id="achievements">
                 <h2>KEY ACHIEVEMENTS</h2>
                 <ul class="achievement-list">
                     <li class="achievement-item">
@@ -1530,7 +1645,7 @@
                 </ul>
             </section>
 
-            <section>
+            <section data-job-id="skills">
                 <h2>SKILLS</h2>
 
                 <div class="skill-section">
@@ -1611,7 +1726,7 @@
                 </div>
             </section>
 
-            <section>
+            <section data-job-id="education">
                 <h2>EDUCATION</h2>
                 <div class="education-item">
                     <span class="degree">Bachelor of Science, <a
@@ -1753,6 +1868,11 @@
 
             if (quickScanItems.length === 0 || jobSections.length === 0) return;
 
+            let specialSelectionMode = false;
+            let specialSelectionScrollTop = 0;
+            let ignoreScrollUpdates = false;
+            let ignoreScrollTimeout;
+
             // Click to navigate
             quickScanItems.forEach(item => {
                 item.addEventListener('click', () => {
@@ -1762,7 +1882,21 @@
                     const targetSection = document.querySelector(`[data-job-id="${firstTargetId}"]`);
 
                     if (targetSection) {
-                        // Special handling for Year 1 - scroll to bottom
+                        // Interactive feedback
+                        quickScanItems.forEach(i => i.classList.remove('active'));
+                        item.classList.add('active');
+
+                        if (!year) {
+                            // Is a special item
+                            specialSelectionMode = true;
+                            ignoreScrollUpdates = true;
+                        } else {
+                            // Is a year - revert to normal auto behavior
+                            specialSelectionMode = false;
+                            ignoreScrollUpdates = true;
+                        }
+
+                        // Perform Scroll
                         if (year === '1') {
                             window.scrollTo({
                                 top: document.documentElement.scrollHeight,
@@ -1775,12 +1909,36 @@
                                 behavior: 'smooth'
                             });
                         }
+
+                        // Reset ignore flag after animation
+                        if (ignoreScrollTimeout) clearTimeout(ignoreScrollTimeout);
+                        ignoreScrollTimeout = setTimeout(() => {
+                            ignoreScrollUpdates = false;
+                            if (specialSelectionMode) {
+                                specialSelectionScrollTop = window.pageYOffset;
+                            } else {
+                                // If it was a year click, force an update now to ensure correct state
+                                updateActiveState();
+                            }
+                        }, 1000);
                     }
                 });
             });
 
             // Update active state on scroll
             function updateActiveState() {
+                if (ignoreScrollUpdates) return;
+
+                // Check if we should exit special mode
+                if (specialSelectionMode) {
+                    if (Math.abs(window.pageYOffset - specialSelectionScrollTop) > 50) {
+                        specialSelectionMode = false;
+                    } else {
+                        // Maintain special state
+                        return;
+                    }
+                }
+
                 const scrollPosition = window.pageYOffset + window.innerHeight / 3;
                 const windowHeight = window.innerHeight;
                 const documentHeight = document.documentElement.scrollHeight;
@@ -1794,8 +1952,11 @@
                 } else {
                     // Find which year's jobs are currently in view
                     quickScanItems.forEach(item => {
-                        const targetIds = item.getAttribute('data-target').split(',').map(id => id.trim());
                         const year = item.getAttribute('data-year');
+                        // Only auto-update items that have a year
+                        if (!year) return;
+
+                        const targetIds = item.getAttribute('data-target').split(',').map(id => id.trim());
 
                         // Check if any of this year's jobs are in view
                         for (const targetId of targetIds) {
@@ -1815,9 +1976,16 @@
                     });
                 }
 
-                // Update quick scan items - allow multiple active years (for Year 5 & 6)
+                // Update quick scan items
                 quickScanItems.forEach(item => {
                     const year = item.getAttribute('data-year');
+
+                    // If special item (no year), always remove active unless managed by special mode (which returns early)
+                    if (!year) {
+                        item.classList.remove('active');
+                        return;
+                    }
+
                     if (activeYears.includes(year)) {
                         item.classList.add('active');
                     } else {
@@ -1844,9 +2012,8 @@
         // Initialize quick scan
         initQuickScan();
 
-        // Mobile Wheel Rotators Functionality
-        function initWheelRotators() {
-            // Data for the wheels
+        // TradingView-Style Mobile Navigation Logic
+        function initMobileTvNav() {
             const yearsData = [
                 { label: 'Year 7', value: '7', target: 'job-0,job-1' },
                 { label: 'Year 6', value: '6', target: 'job-2' },
@@ -1857,62 +2024,65 @@
                 { label: 'Year 1', value: '1', target: 'job-9' }
             ];
 
-            const skillsData = [
-                { label: 'UI/UX', value: 'ui' },
-                { label: 'Product', value: 'product' },
-                { label: 'Figma', value: 'figma' },
-                { label: 'React', value: 'react' },
-                { label: 'AI/LLM', value: 'ai' },
-                { label: 'Web3', value: 'web3' },
-                { label: 'Design Systems', value: 'systems' }
-            ];
+            // --- Overlay & UI Elements ---
+            const trigger = document.getElementById('timelineTrigger');
+            const overlay = document.getElementById('timelineOverlay');
+            const bottomLabel = document.getElementById('timelineValue');
+            const overlayLabel = document.getElementById('overlayActiveValue');
+            const btnAchievements = document.getElementById('btnAchievements');
+            const btnSkills = document.getElementById('btnSkills');
+            const wheelTrack = document.getElementById('tvYearsTrack');
 
-            const achievementsData = [
-                { label: '5M+ Users', value: 'users' },
-                { label: '300% Speed', value: 'speed' },
-                { label: '28% Lift', value: 'lift' },
-                { label: '19% Conv.', value: 'conv' },
-                { label: 'Web3 Launch', value: 'web3' }
-            ];
+            if (!trigger || !overlay || !wheelTrack) return;
 
-            // Helper to create wheel items
-            function createWheelItems(containerId, data) {
-                const track = document.getElementById(containerId);
-                if (!track) return;
+            // Open Overlay
+            trigger.addEventListener('click', () => {
+                overlay.classList.add('active');
+            });
 
-                // Add empty padding items for spacing at start/end
-                const paddingCount = 4; // visible items / 2 approx
+            // Close Overlay
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
 
-                // We repeat the data to create an infinite loop feel or just enough length
-                // For this implementation, we'll stick to a finite list with padding
+            // CTAs
+            const scrollToSection = (searchText) => {
+                const headers = document.querySelectorAll('h2');
+                for (let h of headers) {
+                    if (h.textContent.toUpperCase().includes(searchText)) {
+                        const navHeight = 60;
+                        const top = h.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                        break;
+                    }
+                }
+            };
 
-                // Clear existing
-                track.innerHTML = '';
+            btnAchievements.addEventListener('click', () => scrollToSection('ACHIEVEMENT'));
+            btnSkills.addEventListener('click', () => scrollToSection('SKILLS'));
 
-                data.forEach((item, index) => {
+            // --- Wheel Initialization ---
+            function createWheelItems() {
+                wheelTrack.innerHTML = '';
+                yearsData.forEach((item, index) => {
                     const el = document.createElement('div');
-                    el.className = 'wheel-item';
+                    el.className = 'tv-wheel-item';
                     el.textContent = item.label;
-                    el.dataset.value = item.value;
                     el.dataset.index = index;
-                    if (item.target) el.dataset.target = item.target;
-
-                    // Style positioning relative to center will happen in update loop
-                    track.appendChild(el);
+                    wheelTrack.appendChild(el);
                 });
             }
+            createWheelItems();
 
-            createWheelItems('years-track', yearsData);
-            createWheelItems('skills-track', skillsData);
-            createWheelItems('achievements-track', achievementsData);
-
-            // Wheel Logic
+            // Wheel Controller
             class WheelController {
-                constructor(elementId, items, onChange) {
-                    this.container = document.getElementById(elementId).parentElement;
-                    this.track = document.getElementById(elementId);
+                constructor(trackElement, onChange) {
+                    this.track = trackElement;
+                    this.container = this.track.parentElement;
                     this.items = Array.from(this.track.children);
-                    this.itemHeight = 35; // Match CSS
+                    this.itemHeight = 50; // Match CSS height
                     this.onChange = onChange;
 
                     this.currentY = 0;
@@ -1922,13 +2092,10 @@
                     this.startScrollY = 0;
                     this.lastY = 0;
                     this.velocity = 0;
-                    this.rafId = null;
                     this.selectedIndex = 0;
 
                     this.initEvents();
                     this.animate();
-
-                    // Set initial position (center first item)
                     this.snapTo(0);
                 }
 
@@ -1940,10 +2107,8 @@
                             this.startScrollY = this.currentY;
                             this.lastY = y;
                             this.velocity = 0;
-                            // Cancel any ongoing momentum
                             this.targetY = this.currentY;
                         } else {
-                            // End drag, apply momentum
                             this.targetY = this.currentY + (this.velocity * 15);
                             this.snapToClosest();
                         }
@@ -1951,7 +2116,7 @@
 
                     this.container.addEventListener('touchstart', (e) => {
                         toggleDrag(true, e.touches[0].clientY);
-                        e.preventDefault(); // Prevent page scroll
+                        e.preventDefault();
                     }, { passive: false });
 
                     this.container.addEventListener('touchmove', (e) => {
@@ -1959,18 +2124,14 @@
                         const y = e.touches[0].clientY;
                         const diff = y - this.startY;
                         this.targetY = this.startScrollY + diff;
-
-                        // Calculate velocity
                         this.velocity = y - this.lastY;
                         this.lastY = y;
                         e.preventDefault();
                     }, { passive: false });
 
-                    this.container.addEventListener('touchend', () => {
-                        toggleDrag(false);
-                    });
+                    this.container.addEventListener('touchend', () => toggleDrag(false));
 
-                    // Mouse support for testing
+                    // Mouse support
                     this.container.addEventListener('mousedown', (e) => toggleDrag(true, e.clientY));
                     window.addEventListener('mousemove', (e) => {
                         if (this.isDragging) {
@@ -1979,8 +2140,8 @@
                             this.targetY = this.startScrollY + diff;
                             this.velocity = y - this.lastY;
                             this.lastY = y;
+                            e.preventDefault();
                         }
-                        if (this.isDragging) e.preventDefault();
                     });
                     window.addEventListener('mouseup', () => {
                         if (this.isDragging) toggleDrag(false);
@@ -1993,154 +2154,195 @@
                 }
 
                 snapTo(index) {
-                    // Clamp index
                     index = Math.max(0, Math.min(index, this.items.length - 1));
                     this.targetY = -index * this.itemHeight;
 
-                    // Trigger change if index changed
                     if (this.selectedIndex !== index) {
                         this.selectedIndex = index;
-                        // Haptic feedback simulation (visual)
+                        if (this.onChange) this.onChange(index);
+
+                        // Visual refresh
+                        this.items.forEach(i => i.classList.remove('haptic'));
                         if (this.items[index]) {
-                            this.items[index].classList.remove('haptic');
-                            void this.items[index].offsetWidth; // trigger reflow
+                            void this.items[index].offsetWidth;
                             this.items[index].classList.add('haptic');
                         }
-                        if (this.onChange) this.onChange(this.items[index], index);
                     }
                 }
 
                 updateTransform() {
-                    // 3D effect parameters
-                    const perspective = 1000;
-                    const radius = 120; // Virtual cylinder radius
-
                     this.items.forEach((item, i) => {
                         const itemY = i * this.itemHeight;
-                        // Distance from center of viewing area
                         const relativeY = this.currentY + itemY;
-                        const angle = (relativeY / (this.itemHeight * 3)) * 45; // Map position to angle
 
-                        // Opacity and scale based on distance from center
+                        // Simplified High-Visibility Physics
                         const absRelY = Math.abs(relativeY);
-                        const opacity = Math.max(0.2, 1 - (absRelY / 100));
-                        const scale = Math.max(0.8, 1 - (absRelY / 400));
 
-                        // Apply CSS transform
-                        // RotateX creates the wheel effect
-                        // TranslateZ pushes items back as they move away from center
-                        // const z = radius * Math.cos(angle * Math.PI / 180) - radius;
-                        // Actually simpler 2D transform often feels better on mobile web for performance
-                        // Let's do a pseudo-3D
+                        // Much gentler fade: visible even at edges
+                        const opacity = Math.max(0.4, 1 - (absRelY / 350));
 
-                        const rotateX = -relativeY * 0.8; // Simple rotation
-                        // Limit rotation
-                        const clampedRotate = Math.max(-60, Math.min(60, rotateX));
+                        // Subtle scale for depth, but keep it readable
+                        const scale = Math.max(0.85, 1 - (absRelY / 1000));
 
-                        item.style.transform = `translateY(${this.currentY}px) rotateX(${clampedRotate}deg) scale(${scale})`;
+                        // Use simple translateY for rock-solid visibility
+                        // Removed rotateX to prevent rendering artifacts with masks
+                        item.style.transform = `translateY(${relativeY}px) scale(${scale})`;
                         item.style.opacity = opacity;
 
+                        // Active state logic
                         if (Math.abs(relativeY) < this.itemHeight / 2) {
                             item.classList.add('active');
-                            item.classList.remove('faded');
+                            item.style.opacity = 1;
                         } else {
                             item.classList.remove('active');
-                            item.classList.add('faded');
                         }
                     });
                 }
 
                 animate() {
-                    // Smooth physics
                     const diff = this.targetY - this.currentY;
-                    this.currentY += diff * 0.1; // Spring stiffness
-
-                    // Update visuals
+                    this.currentY += diff * 0.1;
                     this.updateTransform();
-
                     requestAnimationFrame(() => this.animate());
                 }
             }
 
-            // Initialize controllers
+            // Init Wheel Controller
+            let isAutoScrolling = false;
+            const yearsWheel = new WheelController(wheelTrack, (index) => {
+                // Update Labels
+                const data = yearsData[index];
+                bottomLabel.textContent = data.label;
+                overlayLabel.textContent = data.label;
 
-            // Years Wheel - Controls Page Scroll
-            const yearsWheel = new WheelController('years-track', [], (item, index) => {
-                const targetIds = item.dataset.target.split(',');
-                const firstTargetId = targetIds[0];
-                const year = item.dataset.value;
-                const targetSection = document.querySelector(`[data-job-id="${firstTargetId}"]`);
+                // Scroll Page (if not triggered by auto-scroll)
+                if (!isAutoScrolling) {
+                    const targetIds = data.target.split(',');
+                    const jobSection = document.querySelector(`[data-job-id="${targetIds[0]}"]`);
 
-                if (targetSection) {
-                    if (year === '1') {
+                    if (data.value === '1') {
                         window.scrollTo({
                             top: document.documentElement.scrollHeight,
                             behavior: 'smooth'
                         });
-                    } else {
-                        const navHeight = document.querySelector('.mobile-timeline-nav').offsetHeight;
-                        const offsetTop = targetSection.getBoundingClientRect().top + window.pageYOffset - 100;
-
-                        window.scrollTo({
-                            top: offsetTop,
-                            behavior: 'smooth'
-                        });
+                    } else if (jobSection) {
+                        const navHeight = 60;
+                        const top = jobSection.getBoundingClientRect().top + window.pageYOffset - 100;
+                        window.scrollTo({ top, behavior: 'smooth' });
                     }
                 }
             });
 
-            // Skills Wheel - Just Visual / Highlight?
-            const skillsWheel = new WheelController('skills-track', [], (item, index) => {
-                // Could highlight skills in the skills section
-            });
-
-            // Achievements Wheel
-            const achievementsWheel = new WheelController('achievements-track', [], (item, index) => {
-                // Could scroll to specific achievements
-            });
-
-            // Sync Years Wheel with Page Scroll
+            // Sync on Scroll
             window.addEventListener('scroll', () => {
-                if (yearsWheel.isDragging) return; // Don't interfere if user is using the wheel
+                if (yearsWheel.isDragging) return;
 
                 const scrollPosition = window.pageYOffset + window.innerHeight / 3;
                 const windowHeight = window.innerHeight;
                 const documentHeight = document.documentElement.scrollHeight;
-                const isAtBottom = (window.pageYOffset + windowHeight) >= (documentHeight - 100);
+                const isAtBottom = (window.pageYOffset + windowHeight) >= (documentHeight - 50);
 
-                let activeYearIndex = -1;
+                let activeIndex = -1;
 
                 if (isAtBottom) {
-                    // Find index for Year 1
-                    activeYearIndex = yearsData.findIndex(d => d.value === '1');
+                    activeIndex = yearsData.findIndex(d => d.value === '1');
                 } else {
-                    // Find visible job
                     yearsData.forEach((data, index) => {
                         const ids = data.target.split(',');
                         ids.forEach(id => {
-                            const section = document.querySelector(`[data-job-id="${id}"]`);
+                            const section = document.querySelector(`[data-job-id="${id.trim()}"]`);
                             if (section) {
                                 const rect = section.getBoundingClientRect();
-                                const top = rect.top + window.pageYOffset;
-                                const bottom = top + rect.height;
-                                if (scrollPosition >= top && scrollPosition < bottom) {
-                                    activeYearIndex = index;
+                                const absoluteTop = rect.top + window.pageYOffset;
+                                const absoluteBottom = absoluteTop + rect.height;
+
+                                if (scrollPosition >= absoluteTop && scrollPosition < absoluteBottom) {
+                                    // Special handling for shared job-2 (TD Bank) between Year 6 and 5
+                                    if (id.trim() === 'job-2') {
+                                        const midpoint = absoluteTop + (rect.height / 2);
+                                        // Year 6 corresponds to the top half (more recent)
+                                        // Year 5 corresponds to the bottom half (older)
+                                        if (data.value === '6' && scrollPosition < midpoint) {
+                                            activeIndex = index;
+                                        } else if (data.value === '5' && scrollPosition >= midpoint) {
+                                            activeIndex = index;
+                                        }
+                                    } else {
+                                        activeIndex = index;
+                                    }
                                 }
                             }
                         });
                     });
                 }
 
-                if (activeYearIndex !== -1 && activeYearIndex !== yearsWheel.selectedIndex) {
-                    yearsWheel.snapTo(activeYearIndex);
+                if (activeIndex !== -1 && activeIndex !== yearsWheel.selectedIndex) {
+                    isAutoScrolling = true;
+                    yearsWheel.snapTo(activeIndex);
+                    // Update text immediately without triggering scroll back
+                    const data = yearsData[activeIndex];
+                    bottomLabel.textContent = data.label;
+                    overlayLabel.textContent = data.label;
+
+                    // Reset flag after a moment
+                    setTimeout(() => { isAutoScrolling = false; }, 100);
                 }
             });
         }
 
-        // Initialize wheel rotators
-        initWheelRotators();
+        initMobileTvNav();
 
-        // Showreel Widget Functionality - REMOVED (Not present in HTML)
+        // Showreel Widget Functionality
+        const showreelWidget = document.getElementById('showreelWidget');
+        const showreelOverlay = document.getElementById('showreelOverlay');
+        const closeShowreel = document.getElementById('closeShowreel');
+        const overlayVideo = document.getElementById('overlayVideo');
+
+        if (showreelWidget && showreelOverlay && overlayVideo) {
+            // Open overlay
+            showreelWidget.addEventListener('click', () => {
+                showreelOverlay.classList.add('active');
+                overlayVideo.currentTime = 0;
+                overlayVideo.play().catch(e => console.error("Video play failed:", e));
+            });
+
+            // Close function
+            function closeOverlay() {
+                showreelOverlay.classList.remove('active');
+                overlayVideo.pause();
+            }
+
+            // Close button click (Old)
+            if (closeShowreel) {
+                closeShowreel.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    closeOverlay();
+                });
+            }
+
+            // Close button click (New Fixed)
+            const closeShowreelFixed = document.getElementById('closeShowreelFixed');
+            if (closeShowreelFixed) {
+                closeShowreelFixed.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    closeOverlay();
+                });
+            }
+
+            // Click outside to close (background click)
+            showreelOverlay.addEventListener('click', (e) => {
+                if (e.target === showreelOverlay) {
+                    closeOverlay();
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && showreelOverlay.classList.contains('active')) {
+                    closeOverlay();
+                }
+            });
+        }
 
     });
 </script>
